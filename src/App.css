@@ -1,0 +1,37 @@
+.InvestmentTracker {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+}
+
+.InvestmentTracker-title {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: rgb(17, 106, 97);
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid rgb(15, 69, 57);
+}
+
+th {
+  background-color: rgb(11, 81, 74);
+  font-weight: bold;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background-color: #444;
+}
+
