@@ -1,0 +1,30 @@
+
+.investment-page-background {
+    background-image: url('../assets/investment-page.jpg');
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+.page-body {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-self: baseline;
+    align-items: center;
+    align-content: center;
+    gap: 30px 20px;
+    background-image: url('../assets/investment-page.jpg');
+    background-size: cover;
+}
+  
+.form {
+    align-content: center;
+    align-items: center;
+}
+
+.radialChart {
+    position: "relative";
+    top: "50%";
+    left: "50%";
+    transform: "translate(-50%, -50%)";
+}

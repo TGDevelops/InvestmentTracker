@@ -1,22 +1,18 @@
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import InvestmentPage from './components/InvestmentPage';
-import DebtPage from './components/DebtPage';
-import DashboardPage from './components/DashboardPage';
-import LoginPage from './components/LoginPage';
-import RegistrationPage from './components/RegistrationPage';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import Root from './components/Root';
+import { store } from './redux/store';
 
 function App() {
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route exact path="/" element={LoginPage()} />
-          <Route path="/register" element={RegistrationPage()} />
-          <Route path="/dashboard" element={DashboardPage()} />
-          <Route path="/investments" element={InvestmentPage()} />
-          <Route path="/debts" element={DebtPage()} />
-        </Routes>
-      </BrowserRouter>
+    <Provider store={store}>
+      <div className="App">
+        <BrowserRouter>
+          <Root />
+        </BrowserRouter>
+        </div>
+    </Provider> 
   );
 }
 
