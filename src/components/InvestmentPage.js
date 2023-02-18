@@ -1,18 +1,20 @@
-import Button from '@material-ui/core/Button';
+import { Button, Typography} from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import "../App.css";
 import '../components/page.css';
 import { addInvestment } from '../redux/store';
 import Header from './Header';
+import BootStrapButton from './mui/BootStrapButton';
+import DataTable from './mui/DataTable';
 import PieChart from './visualizations/PieChart';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,11 +29,28 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     width: 200,
   },
-  button: {
-    margin: theme.spacing(5),
-    alignItems: "center"
-  }
+  title: {
+    flexGrow: 1,
+    color: 'white',
+    padding: '10px',
+    margin: '10px',
+    fontStyle: 'bold',
+    alignSelf: 'center'
+  },
 }));
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: '#ffffff',
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      main: '#11cb5f',
+    },
+  },
+});
 
 const getSumOfInvestments = (investments) => {
   let investmentSum = 0;
@@ -46,6 +65,7 @@ const InvestmentPage = () => {
   const [investmentName, setInvestmentName] = useState('');
   const [investmentAmount, setInvestmentAmount] = useState('');
   const [investmentYear, setInvestmentYear] = useState('');
+  const [investmentRoi, setInvestmentRoi] = useState('');
   const [investments, setInvestments] = useState([]);
   const [sum, setSum] = useState(0);
   const [investmentType, setInvestmentType] = useState('');
@@ -57,11 +77,12 @@ const InvestmentPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setInvestments([...investments, { name: investmentName, amount: investmentAmount, type: investmentType, year: investmentYear }]);
+    setInvestments([...investments, { name: investmentName, amount: investmentAmount, type: investmentType, year: investmentYear, roi: investmentRoi }]);
     setInvestmentName('');
     setInvestmentAmount('');
     setInvestmentYear('');
     setInvestmentType('');
+    setInvestmentRoi('');
     setSum(getSumOfInvestments(investments));
     const action = addInvestment(investmentType, investmentName, investmentAmount, investmentYear);
     action.reducer = "investment";
@@ -72,7 +93,10 @@ const InvestmentPage = () => {
     <div>
       <Header />
       <div className='page-body'>
-        <h3>Add your Investments</h3>
+            <Typography variant="h6" className={classes.title}>
+              Add Your Investments
+            </Typography>
+        <div  className='form'>
         <Container>
             <form noValidate autoComplete="off" className='form'>
                 <FormControl variant='standard' sx={{ m: 1, minWidth: 200 }}>
@@ -122,42 +146,29 @@ const InvestmentPage = () => {
                     margin="normal"
                     variant='standard'
                 />
-                <Button
-                    variant="text"
-                    color="primary"
-                    className={classes.button} 
-                    onClick={handleSubmit}
-                    size="medium"   
-                >
-                    Add Investment
-                </Button>
+                <TextField
+                    id='investment-roi'
+                    label="Expected ROI(%)"
+                    className={classes.textField}
+                    value={investmentRoi}
+                    onChange={(e) => setInvestmentRoi(e.target.value)}
+                    margin="normal"
+                    variant='standard'
+                />
+                <ThemeProvider theme={theme}>
+                  <BootStrapButton label={'Add'} onClickEvent={handleSubmit}/>
+                </ThemeProvider>
                 </form>
         </Container>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Investment Type</TableCell>
-                <TableCell>Investment Name</TableCell>
-                <TableCell>Investment Value</TableCell>
-                <TableCell>Investment Year</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {investments.map((investment) => (
-                <TableRow key={investment.id}>
-                  <TableCell>{investment.type}</TableCell>
-                  <TableCell>{investment.name}</TableCell>
-                  <TableCell>{investment.amount}</TableCell>
-                  <TableCell>{investment.year}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Container className={classes.chartContainer}>
-          <PieChart />
-        </Container>
+        </div>
+        <div className='table'>
+          <DataTable/>
+        </div>
+        <div>
+          <Container className={classes.chartContainer}>
+            <PieChart />
+          </Container>
+        </div>
       </div>
     </div>
   )

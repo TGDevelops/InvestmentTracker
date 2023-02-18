@@ -20,21 +20,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { Edit } from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
-
-function createData(type, name, value, year) {
-  return {
-    type,
-    name,
-    value,
-    year
-  };
-}
-
-const rows = [
-  createData('Stocks','TCS', 10000, 2022),
-  createData('MF', 'DSP', 25000, 2023)
-];
+import { useSelector } from 'react-redux';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -151,6 +139,10 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
+const handleDelete = (event) => {
+
+}
+
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
 
@@ -188,7 +180,9 @@ function EnhancedTableToolbar(props) {
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
-            <DeleteIcon />
+            <DeleteIcon 
+                onClick={(event) => handleDelete(event)}
+            />
           </IconButton>
         </Tooltip>
       ) : (
@@ -213,6 +207,16 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const investmentData = useSelector((state) => state.investment);
+
+  const rows = Object.values(investmentData).map((investment) => {
+    return {
+      type: investment.type,
+      name: investment.name,
+      value: investment.value,
+      year: investment.year
+    };
+  });
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

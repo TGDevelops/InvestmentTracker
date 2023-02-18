@@ -69,7 +69,7 @@ const RegistrationPage = () => {
 
   return (
     <div>
-        <Header />
+        <Header currentPage="register"/>
         {registrationFlag === 'success' ? (
             <Alert severity="success"> User Registered Successfully! </Alert>
         ) : registrationFlag === 'error' ? (

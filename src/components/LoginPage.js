@@ -14,6 +14,7 @@ import { firebaseConfig } from "../utils/firestoreConfig";
 import Header from './Header';
 import { setUser } from '../redux/store';
 import Cookies from 'js-cookie';
+import { styled } from '@mui/material/styles';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -28,10 +29,18 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
     width: "100%"
   },
-  button: {
-    margin: theme.spacing(1)
-  }
 }));
+
+const BootstrapButton = styled(Button)({
+  boxShadow: 'none',
+  textTransform: 'none',
+  fontSize: 16,
+  color: 'white',
+  padding: '6px 12px',
+  border: '1px solid',
+  lineHeight: 1.5,
+  backgroundColor: '#000000',
+});
 
 const LoginPage = () => {
   const classes = useStyles();
@@ -62,7 +71,8 @@ const LoginPage = () => {
         })
         setTimeout(() => {
           navigate('/dashboard');
-        }, 2000);
+          setLoginFlag('null');
+        }, 500);
       })
       .catch(error => {
         setLoginFlag('failed');
@@ -72,7 +82,7 @@ const LoginPage = () => {
 
   return (
     <div>
-      <Header />
+      <Header currentPage="login"/>
       {loginFlag === 'success' ? (
         <Alert severity="success"> Login Successful! </Alert>
       ) : loginFlag === 'failed' ? (
@@ -98,15 +108,13 @@ const LoginPage = () => {
             onChange={e => setPassword(e.target.value)}
             margin="normal"
           />
-          <Button
+          <BootstrapButton
             variant="contained"
-            color="primary"
-            className={classes.button}
             onClick={handleLogin}
             type="submit"
           >
             Login
-          </Button>
+          </BootstrapButton>
         </form>
       </Container>
     </div>

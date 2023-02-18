@@ -8,23 +8,51 @@
 .page-body {
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-self: baseline;
     align-items: center;
     align-content: center;
     gap: 30px 20px;
-    background-image: url('../assets/investment-page.jpg');
-    background-size: cover;
+    background-color: gray;
 }
   
 .form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-content: center;
     align-items: center;
+    align-self: center;
+    margin: 0px;
+    padding: 0px;
+    width: fit-content;
 }
 
-.radialChart {
-    position: "relative";
-    top: "50%";
-    left: "50%";
-    transform: "translate(-50%, -50%)";
+.table {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    align-items: center;
+    align-self: center;
+    margin: 0px;
+}
+
+.button {
+    margin: 0px 0px;
+    border-style: solid;
+    border: black;
+    background-color: black;
+}
+
+.tooBar {
+    display: flex;
+    flex-direction: column;
+    flex-flow: column;
+}
+
+.navItems {
+    display: flex;
+    align-items: baseline;
+    width: fit-content;
+    justify-content: space-around;
 }
