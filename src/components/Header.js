@@ -8,14 +8,12 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { styled } from '@mui/material/styles';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
 import '../components/page.css';
 import { clearUser } from '../redux/store';
-import { useSelector } from 'react-redux';
-import { styled } from '@mui/material/styles';
-import {Link} from '@material-ui/core';
 
 //const user = auth.currentUser;
 const theme = createMuiTheme({
@@ -66,8 +64,6 @@ function Header(props) {
   const { currentPage } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const user = useSelector((state) => state.auth);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -93,6 +89,8 @@ function Header(props) {
     navigate('/');
   }
 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
@@ -102,7 +100,7 @@ function Header(props) {
               WealthMate
             </Typography>
             <div>
-              {user ? (
+              {isAuthenticated ? (
                 <div className='navItems'>
                     <BootstrapButton
                       id="basic-button"
@@ -122,10 +120,10 @@ function Header(props) {
                         'aria-labelledby': 'basic-button',
                       }}
                     >
-                      <MenuItem component='a' href='/home'>Home</MenuItem>
-                      <MenuItem component='a' href='/dashboard'>Dashboard</MenuItem>
-                      <MenuItem component='a' href='/investments'>Investment</MenuItem>
-                      <MenuItem component='a' href='/debts'>Debt</MenuItem>
+                      <MenuItem ccomponent={Link} to='/home'>Home</MenuItem>
+                      <MenuItem component={Link} to='/dashboard'>Dashboard</MenuItem>
+                      <MenuItem component={Link} to='/investments'>Investment</MenuItem>
+                      <MenuItem component={Link} to='/debts'>Debt</MenuItem>
                     </Menu>
                   <BootstrapButton startIcon={<ExitToAppIcon />} size="small" onClick={handleSignOut}>LogOut</BootstrapButton>
                 </div>

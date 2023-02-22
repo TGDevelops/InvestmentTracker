@@ -18,16 +18,16 @@ const PieChart = () => {
           left: 'center'
         },
         legend: {
-          orient: 'vertical',
-          left: 'left'
+          orient: 'Horizontal',
+          top: 'bottom'
         },
         toolbox: {
           show: true,
           feature: {
-            mark: { show: true },
-            dataView: { show: true, readOnly: false },
-            restore: { show: true },
-            saveAsImage: { show: true }
+            mark: { show: false },
+            dataView: { show: false, readOnly: false },
+            restore: { show: false },
+            saveAsImage: { show: false }
           }
         },
         series: [

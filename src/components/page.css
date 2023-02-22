@@ -13,7 +13,7 @@
     align-items: center;
     align-content: center;
     gap: 30px 20px;
-    background-color: gray;
+    background: white;
 }
   
 .form {
@@ -51,6 +51,13 @@
 }
 
 .navItems {
+    display: flex;
+    align-items: baseline;
+    width: fit-content;
+    justify-content: space-around;
+}
+
+.dashboard {
     display: flex;
     align-items: baseline;
     width: fit-content;

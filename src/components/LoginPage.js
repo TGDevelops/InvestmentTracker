@@ -58,26 +58,28 @@ const LoginPage = () => {
     const auth = getAuth();
     event.preventDefault();
       signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        dispatch(setUser(user));
-        setLoginFlag('success');
-        auth.onAuthStateChanged((user) => {
-          if(user){
-            user.getIdToken().then(authToken => {
-              Cookies.set('token', authToken);
-            }) 
-          }
+        .then((userCredential) => {
+          const user = userCredential.user;
+          const action = setUser(user);
+          action.reducer = 'auth';
+          dispatch(action);
+          setLoginFlag('success');
+          auth.onAuthStateChanged((user) => {
+            if(user){
+              user.getIdToken().then(authToken => {
+                Cookies.set('token', authToken);
+              }) 
+            }
+          })
+          setTimeout(() => {
+            navigate('/dashboard');
+            setLoginFlag('null');
+          }, 500);
         })
-        setTimeout(() => {
-          navigate('/dashboard');
-          setLoginFlag('null');
-        }, 500);
-      })
-      .catch(error => {
-        setLoginFlag('failed');
-        setLoginMessage(error.message);
-      });
+        .catch(error => {
+          setLoginFlag('failed');
+          setLoginMessage(error.message);
+        });
   };
 
   return (

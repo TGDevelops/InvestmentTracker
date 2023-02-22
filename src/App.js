@@ -1,6 +1,6 @@
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import { Provider } from 'react-redux';
 import Root from './components/Root';
 import { store } from './redux/store';
 
@@ -9,7 +9,7 @@ function App() {
     <Provider store={store}>
       <div className="App">
         <BrowserRouter>
-          <Root />
+            <Root/ >
         </BrowserRouter>
         </div>
     </Provider> 

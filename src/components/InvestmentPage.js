@@ -1,4 +1,4 @@
-import { Button, Typography} from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -31,12 +31,16 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: 'white',
+    color: 'black',
     padding: '10px',
     margin: '10px',
     fontStyle: 'bold',
     alignSelf: 'center'
   },
+  select: {
+    padding: '0px',
+    margin: '0px'
+  }
 }));
 
 const theme = createTheme({
@@ -75,7 +79,7 @@ const InvestmentPage = () => {
     setInvestmentType(event.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleAddInvestmnet = (e) => {
     e.preventDefault();
     setInvestments([...investments, { name: investmentName, amount: investmentAmount, type: investmentType, year: investmentYear, roi: investmentRoi }]);
     setInvestmentName('');
@@ -89,6 +93,10 @@ const InvestmentPage = () => {
     dispatch(action);
   };
 
+  const handleSubmit = (e) => {
+    
+  };
+
   return (
     <div>
       <Header />
@@ -99,8 +107,8 @@ const InvestmentPage = () => {
         <div  className='form'>
         <Container>
             <form noValidate autoComplete="off" className='form'>
-                <FormControl variant='standard' sx={{ m: 1, minWidth: 200 }}>
-                  <InputLabel id="investment-type">Investment Type</InputLabel>
+                <FormControl sx={{ m: 1, minWidth: 200 }}>
+                  <InputLabel className={classes.select} id="investment-type">Investment Type</InputLabel>
                   <Select
                     labelId="select-small"
                     id="investment-type-select"
@@ -126,7 +134,7 @@ const InvestmentPage = () => {
                     value={investmentName}
                     onChange={(e) => setInvestmentName(e.target.value)}
                     margin="normal"
-                    variant='standard'
+                    variant='outlined'
                 />
                 <TextField
                     id="investment-amount"
@@ -135,7 +143,7 @@ const InvestmentPage = () => {
                     value={investmentAmount}
                     onChange={(e) => setInvestmentAmount(e.target.value)}
                     margin="normal"
-                    variant='standard'
+                    variant='outlined'
                 />
                 <TextField
                     id="investment-year"
@@ -144,7 +152,7 @@ const InvestmentPage = () => {
                     value={investmentYear}
                     onChange={(e) => setInvestmentYear(e.target.value)}
                     margin="normal"
-                    variant='standard'
+                    variant='outlined'
                 />
                 <TextField
                     id='investment-roi'
@@ -153,10 +161,10 @@ const InvestmentPage = () => {
                     value={investmentRoi}
                     onChange={(e) => setInvestmentRoi(e.target.value)}
                     margin="normal"
-                    variant='standard'
+                    variant='outlined'
                 />
                 <ThemeProvider theme={theme}>
-                  <BootStrapButton label={'Add'} onClickEvent={handleSubmit}/>
+                  <BootStrapButton label={'Add'} onClickEvent={handleAddInvestmnet}/>
                 </ThemeProvider>
                 </form>
         </Container>
@@ -164,6 +172,9 @@ const InvestmentPage = () => {
         <div className='table'>
           <DataTable/>
         </div>
+        <ThemeProvider theme={theme}>
+                  <BootStrapButton label={'Submit'} onClickEvent={handleSubmit}/>
+                </ThemeProvider>
         <div>
           <Container className={classes.chartContainer}>
             <PieChart />
