@@ -29,6 +29,7 @@ const Root = () => {
           <Route exact path="/" element={LoginPage()} />
           <Route path="/register" element={RegistrationPage()} />
           <Route path="/board" element={DashboardPage()} />
+          <Route path="/invest" element={InvestmentPage()} />
           <Route path="/dashboard" element={<ConnectedPrivateRoute element={<DashboardPage />} />} />
           <Route path="/investments" element={<ConnectedPrivateRoute element={<InvestmentPage />} />} />
           <Route path="/debts" element={<ConnectedPrivateRoute element={<DebtPage />} />} />

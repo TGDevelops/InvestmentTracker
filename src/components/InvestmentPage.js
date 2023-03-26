@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import "../App.css";
 import '../components/page.css';
@@ -16,6 +16,7 @@ import Header from './Header';
 import BootStrapButton from './mui/BootStrapButton';
 import DataTable from './mui/DataTable';
 import PieChart from './visualizations/PieChart';
+import InvestmentServices from '../services/InvestmentServices';
 
 const useStyles = makeStyles((theme) => ({
   chartContainer: {
@@ -66,35 +67,53 @@ const getSumOfInvestments = (investments) => {
 
 const InvestmentPage = () => {
   const classes = useStyles();
+  const [investmentType, setInvestmentType] = useState('');
   const [investmentName, setInvestmentName] = useState('');
   const [investmentAmount, setInvestmentAmount] = useState('');
   const [investmentYear, setInvestmentYear] = useState('');
   const [investmentRoi, setInvestmentRoi] = useState('');
   const [investments, setInvestments] = useState([]);
+  const [newInvestment, setNewInvestment] = useState(null);
   const [sum, setSum] = useState(0);
-  const [investmentType, setInvestmentType] = useState('');
-  const dispatch = useDispatch();
+  
+  const dispatch = useDispatch(); 
 
   const handleInvestmentTypeChange = (event) => {
     setInvestmentType(event.target.value);
   };
 
-  const handleAddInvestmnet = (e) => {
+ /*  useEffect(() => {
+    if(newInvestment){
+      setInvestments([...investments, newInvestment])
+    }
+  }, [newInvestment]); */
+
+  const handleAddInvestment = (e) => {
+    console.log('Investments before:', investments);
     e.preventDefault();
-    setInvestments([...investments, { name: investmentName, amount: investmentAmount, type: investmentType, year: investmentYear, roi: investmentRoi }]);
+    const tempInvestment = {
+      type: investmentType,
+      name: investmentName,
+      amount: investmentAmount,
+      year: investmentYear,
+      roi: investmentRoi
+    };
+    //setNewInvestment(tempInvestment);
+    setInvestments([...investments, tempInvestment]);
+    console.log('New Investment', tempInvestment);
     setInvestmentName('');
     setInvestmentAmount('');
-    setInvestmentYear('');
+    setInvestmentYear('');  
     setInvestmentType('');
     setInvestmentRoi('');
-    setSum(getSumOfInvestments(investments));
-    const action = addInvestment(investmentType, investmentName, investmentAmount, investmentYear);
+    console.log('Investments After:', investments);
+    const action = addInvestment(tempInvestment);
     action.reducer = "investment";
     dispatch(action);
   };
 
   const handleSubmit = (e) => {
-    
+    InvestmentServices.submitInvestments(investments)
   };
 
   return (
@@ -164,13 +183,16 @@ const InvestmentPage = () => {
                     variant='outlined'
                 />
                 <ThemeProvider theme={theme}>
-                  <BootStrapButton label={'Add'} onClickEvent={handleAddInvestmnet}/>
+                  <BootStrapButton label={'Add'} onClickEvent={handleAddInvestment}/>
                 </ThemeProvider>
                 </form>
         </Container>
         </div>
+        <Typography variant="h6" className={classes.title}>
+              Investment Summary
+            </Typography>
         <div className='table'>
-          <DataTable/>
+          { /* <DataTable/> */}
         </div>
         <ThemeProvider theme={theme}>
                   <BootStrapButton label={'Submit'} onClickEvent={handleSubmit}/>

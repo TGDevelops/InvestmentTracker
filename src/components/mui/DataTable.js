@@ -23,6 +23,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { Edit } from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
 import { useSelector } from 'react-redux';
+import { typeOf } from 'react-is';
+import { useEffect } from 'react';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -207,16 +209,29 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const investmentData = useSelector((state) => state.investment);
+  const investments = useSelector((state) => state.investment.investments);
 
-  const rows = Object.values(investmentData).map((investment) => {
-    return {
-      type: investment.type,
-      name: investment.name,
-      value: investment.value,
-      year: investment.year
-    };
-  });
+  console.log('Investment Data From Store',investments)
+  console.log('Is Array check ', Array.isArray(investments))
+  const [rows, setRows] = React.useState([]);
+
+  useEffect(() => {
+    if (investments.length === 0) {
+      // Handle the case where the array is empty
+      setRows(JSON.stringify([]));
+    } else {
+      // Map the array and generate the JSON output
+      const jsonOutput = investments.map(investment => ({
+        type: investment.type,
+        name: investment.name,
+        value: investment.value.toString(),
+        year: investment.year.toString()
+      }));
+      setRows(JSON.stringify(jsonOutput));
+    }
+  }, [investments]);
+
+  console.log('Row data', rows)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

@@ -4,7 +4,7 @@ import * as echarts from 'echarts'
 import { useSelector } from 'react-redux';
 
 const PieChart = () => {
-    const investmentData = useSelector((state) => state.investment);
+    const investmentData = useSelector((state) => state.investment.investments);
 
     const data = Object.entries(investmentData).map(([key, investment], index) => ({
         name: investment.type,

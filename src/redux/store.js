@@ -67,17 +67,20 @@ const addDebt = (type, name, value, year) => {
 }
 
 //Investment Reducer
-const initialStateInvestments = {
+const initInvestment = {
   
+}
+
+const initialStateInvestments = {
+  investments: []
 };
 
 const investmentReducer = (state = initialStateInvestments, action) => {
   switch (action.type) {
     case 'ADD_INVESTMENT':
       return {
-        ...state,
-        [action.payload.type]: { name: action.payload.name, value: action.payload.value, year: action.payload.year, type: action.payload.type }
-      };
+        investments: [...state.investments, action.payload.investment]
+      }
     case 'REMOVE_INVESTMENT':
       const { [action.payload.name]: removedInvestment, ...restOfInvestments } = state;
       return restOfInvestments;
@@ -91,10 +94,13 @@ const investmentReducer = (state = initialStateInvestments, action) => {
   }
 };
 
-const addInvestment = (type, name, value, year) => {
+const addInvestment = (investment) => {
+  console.log('From Redux store',investment)
   return {
     type: 'ADD_INVESTMENT',
-    payload: {type, name, value, year}
+    payload: {
+      investment: investment
+    }
   }
 }
 
